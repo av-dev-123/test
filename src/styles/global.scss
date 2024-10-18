@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "../styles/theme.scss";
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
+  background: url("../assets/images/background-img.png") no-repeat;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+}
+
+// banner section
+.banner-section {
+  position: relative;
+  h1 {
+    line-height: 75px;
+    @media (width < 1199px) {
+      line-height: 50px;
+    }
+    @media (width < 991px) {
+      line-height: 75px;
+    }
+    @media (width < 767px) {
+      line-height: 55px;
+    }
+    @media (width < 575px) {
+      line-height: 45px;
+    }
+  }
+  .banner-img {
+    width: 460px;
+    height: 527px;
+    @media (width < 1199px) {
+      width: 400px;
+      height: 480px;
+    }
+    @media (width < 575px) {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &::before {
+    position: absolute;
+    content: "";
+    background: url("../assets/images/ring.png");
+    background-repeat: no-repeat;
+    width: 450px;
+    height: 450px;
+    left: -40%;
+    top: 50%;
+    transform: translateY(-50%);
+    @media (width < 767px) {
+      display: none;
+    }
+  }
+}
+
+// top whey proteins section
+.protein-card {
+  position: relative;
+  min-height: 320px;
+  .number{
+    min-width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%,-50%);
+  }
+  .protein-card-image {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+// top preworkout section
+.top-card{
+  .number{
+    min-width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+  .top-card-img{
+    width: 62px;
+    height: 65px;
+  }
+}
+
+
+// about  section
+.about-section{
+  background: url('../assets/images/about.png') no-repeat center / cover;
+  min-height: 560px;
+  
+  .about-banner{
+    width: 560px;
+    height: 560px;
+    @media(width < 991px){
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

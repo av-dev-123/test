@@ -3,8 +3,13 @@ import ProteinCard from "../components/proteinCard";
 import Graph from "../assets/images/graph.png";
 import CategoryCard from "../components/categoryCard";
 import TopCard from "../components/topCard";
-import AboutBanner from '../assets/images/about-banner.png'
+import AboutBanner from "../assets/images/about-banner.png";
+import { useEffect, useState } from "react";
+import Chart from "../components/chart";
 const Home = () => {
+  const [debouncedCategory, setDebouncedCategory] = useState("");
+  const [category, setCategory] = useState("");
+  const [timeRange, setTimeRange] = useState("12");
   const protein = [
     {
       color: "red",
@@ -33,6 +38,52 @@ const Home = () => {
       count: 3,
     },
   ];
+  const categoryList = [
+    {
+      title: "Protein Powder",
+    },
+    {
+      title: "Creatine",
+    },
+    {
+      title: "fish oil",
+    },
+    {
+      title: "pre-workout",
+    },
+    {
+      title: "electrolytes",
+    },
+    {
+      title: "supplement name",
+    },
+    {
+      title: "supplement name",
+    },
+    {
+      title: "supplement name",
+    },
+    {
+      title: "supplement name",
+    },
+    {
+      title: "supplement name",
+    },
+  ];
+
+  const filterCategory = categoryList.filter((item) => {
+    return item.title.toLowerCase().includes(debouncedCategory.toLowerCase());
+  });
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedCategory(category);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [category]);
+
   return (
     <>
       {/* banner section */}
@@ -103,20 +154,28 @@ const Home = () => {
               <h5 className="font-semibold text-lg">Whey Protein Statistics</h5>
               <p className="text-primary text-xs">Avg. Selling price per kg</p>
             </div>
-            <button className="text-primary text-nowrap flex items-center gap-2 fw-semibold text-xs border border-dashed border-primary rounded-full py-2 px-4">
-              12 Months{" "}
+            <div className="relative ">
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+                className="text-primary outline-none text-nowrap flex items-center gap-2 font-semibold text-xs border border-dashed border-primary rounded-full py-2 px-4 bg-white appearance-none pr-10"
+              >
+                <option value="12">12 Months</option>
+                <option value="6">6 Months</option>
+                <option value="1">1 Month</option>
+              </select>
               <svg
-                className="w-6 h-6 text-primary"
+                className="w-4 h-4 text-primary absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M7 10l5 5 5-5H7z" />
               </svg>
-            </button>
+            </div>
           </div>
           <div className="p-10">
-            <img src={Graph} alt="img" className="mx-auto" />
+            <Chart timeRange={timeRange} />
           </div>
         </div>
       </section>
@@ -126,6 +185,8 @@ const Home = () => {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center border rounded-full border-primary overflow-hidden shadow-lg mb-5">
             <input
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               type="text"
               placeholder="Search for any supplement"
               className="px-7 py-3 w-full border-none focus:outline-none"
@@ -175,8 +236,8 @@ const Home = () => {
           All <span className="text-primary">Supplement</span> categories
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {[...Array(10)].map((res, i) => (
-            <CategoryCard key={i} />
+          {filterCategory.map((res, i) => (
+            <CategoryCard key={i} title={res.title.toUpperCase()} />
           ))}
         </div>
       </section>
@@ -207,8 +268,13 @@ const Home = () => {
       <section className=" my-20 about-section rounded-3xl flex justify-center items-center">
         <div className="grid items-center grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="p-20 lg:ps-20 order-2 lg:order-1 text-center lg:text-start">
-            <h2 className="font-bold  sm:text-2xl md:text-4xl lg:text-5xl xl:text-5xl text-wrap xl:text-nowrap">ABOUT SUPPMETRICS</h2>
-            <p className="text-md font-extralight my-6" style={{ color: "#333333" }}>
+            <h2 className="font-bold  sm:text-2xl md:text-4xl lg:text-5xl xl:text-5xl text-wrap xl:text-nowrap">
+              ABOUT SUPPMETRICS
+            </h2>
+            <p
+              className="text-md font-extralight my-6"
+              style={{ color: "#333333" }}
+            >
               Lorem Khaled Ipsum is a major key to success. Let me be clear, you
               have to make it through the jungle to make it to Paradise, that’s
               the key, Lion! Life is what you make it.
@@ -218,7 +284,11 @@ const Home = () => {
             </button>
           </div>
           <div className="about-banner mx-auto lg:ms-auto order-1 lg:order-2 ">
-            <img src={AboutBanner} alt="img" className="h-full w-full rounded-t-3xl" />
+            <img
+              src={AboutBanner}
+              alt="img"
+              className="h-full w-full rounded-t-3xl"
+            />
           </div>
         </div>
       </section>
